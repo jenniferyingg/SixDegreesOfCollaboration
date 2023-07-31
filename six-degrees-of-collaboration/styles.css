@@ -11,7 +11,16 @@
   left: 50%;
 }
 
-.boxed-select {
+.boxed {
+  display: inline-block;
   border: 2px solid;
   position: relative;
+}
+
+
+div.horizontalgap {
+  display: inline-block;
+  overflow: hidden;
+  height: 1px;
+  width: 0px;
 }
