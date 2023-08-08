@@ -1,1 +1,1 @@
-# SixDegreesOfCollaboration
+# Six Degrees Of Collaboration
