@@ -1,30 +1,26 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
-
+import React, { useState } from 'react';
+import SearchArtists from '../components/SearchArtists';
 
 export default function Main() {
+    const [artistOne, setArtistOne] = useState<string | null>(null);
+    const [artistTwo, setArtistTwo] = useState<string | null>(null);
+    const selectedArtistOne = (value: string | null) => {
+        setArtistOne(value);
+        console.log(value);
+    };
+    const selectedArtistTwo = (value: string | null) => {
+        setArtistTwo(value);
+        console.log(value);
+    };
 
-    const [artists, setArtists] = useState<string[]>([]);
-    const [artist1, setArtist1] = useState<string>(artists[0]);
-    const [artist2, setArtist2] = useState<string>(artists[1]);
     const [path, setPath] = useState<string[]>([]);
-
-    useEffect(()=>{
-        console.log('Calling /api/artists!');
-        const getArtists = async () => {
-            const response = await fetch ('/api/artists');
-            const data = await response.json();
-            setArtists(data);
-        }
-        getArtists();
-    }, []);
 
     function handleClick() {
         console.log('Calling /api/connections!');
         const getPath = async () => {
             const response = await fetch ('/api/connections', {
                 method: 'POST',
-                body: JSON.stringify({artist1: {artist1}, artist2: {artist2}})
+                body: JSON.stringify({artist1: {artistOne}, artist2: {artistTwo}})
             });
             const data = await response.json();
             setPath(data);
@@ -32,40 +28,14 @@ export default function Main() {
         getPath();
 
     }
-    
 
     return (
         <main>
-            <div className='centre'>
-                <div className='boxed'>
-                    <select 
-                    value = {artist1}
-                    onChange={(e) => {setArtist1(e.target.value);
-                    }}>
-                        {artists.map((name) => (
-                            <option value={name}>{name}</option>
-                            ))}
-                    </select>
-                </div>
-
-                <div className="horizontalgap" style={{width:"50px"}}></div>
-
-                <div className='boxed'>
-                    <button onClick={handleClick}>Find path</button>
-                </div>
-
-                <div className="horizontalgap" style={{width:"50px"}}></div>
-
-                <div className='boxed'>
-                    <select 
-                    value = {artist2}
-                    onChange={(e) => {setArtist2(e.target.value);
-                    }}>
-                            {artists.map((name) => (
-                            <option value={name}>{name}</option>
-                            ))}
-                    </select>
-                </div>
+            <div >
+                <SearchArtists onChange={selectedArtistOne}/>
+                <SearchArtists onChange={selectedArtistTwo} />
+                <button onClick={handleClick}>Find path</button>
+               
             </div>
         </main>
       );

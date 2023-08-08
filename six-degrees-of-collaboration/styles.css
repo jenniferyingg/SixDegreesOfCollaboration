@@ -24,3 +24,7 @@ div.horizontalgap {
   height: 1px;
   width: 0px;
 }
+
+.custom-select-menu {
+  width: 250px !important;
+}
