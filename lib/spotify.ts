@@ -33,3 +33,62 @@ export const searchArtists = async (name: string) => {
   });
   return response.json();
 };
+
+export const fetchArtistAlbums = async (id: string, offset: number) => {
+  const albumsEndpoint = `https://api.spotify.com/v1/artists/${id}/albums`;
+  const albumsParams = `include_groups=album,single,appears_on&limit=50&market=US&locale=en-US&offset=`;
+  const { access_token } = await getAccessToken();
+  const response = await fetch(albumsEndpoint + '?' + albumsParams + offset, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  return response.json();
+}
+
+export const getArtist = async (id: string) => {
+  const albumEndpoint = `https://api.spotify.com/v1/artists/${id}`;
+  const { access_token } = await getAccessToken();
+  const response = await fetch(albumEndpoint, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  return response.json();
+}
+
+export const getAlbum = async (id: string) => {
+  const albumEndpoint = `https://api.spotify.com/v1/albums/${id}`;
+  const { access_token } = await getAccessToken();
+  const response = await fetch(albumEndpoint, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  return response.json();
+}
+
+export const getAlbums = async (ids: string[]) => {
+  const albumsEndpoint = `https://api.spotify.com/v1/albums/`;
+  const albumsParams = `ids=${ids.join(",")}`
+  const { access_token } = await getAccessToken();
+  const response = await fetch(albumsEndpoint + '?' + albumsParams, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+
+      },
+    });
+  return response.json();
+}
+
+export const getTracks = async (id: string, offset: number) => {
+  const tracksEndpoint = `https://api.spotify.com/v1/albums/${id}/tracks`;
+  const tracksParams = `limit=50&market=US&locale=en-US&offset=`;
+  const { access_token } = await getAccessToken();
+  const response = await fetch(tracksEndpoint + '?' + tracksParams + offset,  {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  return response.json();
+}

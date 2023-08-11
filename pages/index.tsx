@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import SearchArtists from '../components/SearchArtists';
 
 export default function Main() {
+    const router = useRouter();
+
     const [artistOne, setArtistOne] = useState<string | null>(null);
     const [artistTwo, setArtistTwo] = useState<string | null>(null);
     const selectedArtistOne = (value: string | null) => {
@@ -13,20 +16,15 @@ export default function Main() {
         console.log(value);
     };
 
-    const [path, setPath] = useState<string[]>([]);
 
     function handleClick() {
-        console.log('Calling /api/connections!');
-        const getPath = async () => {
-            const response = await fetch ('/api/connections', {
-                method: 'POST',
-                body: JSON.stringify({artist1: {artistOne}, artist2: {artistTwo}})
-            });
-            const data = await response.json();
-            setPath(data);
-        }
-        getPath();
-
+        router.push({
+            pathname: '/path',
+            query: {
+                artistId1: artistOne, 
+                artistId2: artistTwo
+            },
+        });
     }
 
     return (
