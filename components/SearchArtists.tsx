@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import {debounce} from '../utils/debounce'; 
+import styled from 'styled-components';
 
 type SelectOption = {
   name: string;
@@ -11,10 +12,14 @@ type Props = {
   onChange: (selectedValue: string | null) => void;
 };
 
-const customStyles = {
+const selectStyles = {
   control: (provided: any) => ({
     ...provided,
-    width: 250, 
+    background: '#0D0017',
+    border: '2px solid #4A72FF',
+    borderRadius: '4px',
+    padding: '8px',
+    width: 450
   }),
 };
 
@@ -73,7 +78,7 @@ const SelectSearchOptions: React.FC<Props> = ({ onChange }) => {
         value={selectedOption}
         isClearable
         className="custom-select-menu"
-        styles={customStyles}
+        styles={selectStyles}
       />
     </div>
   );

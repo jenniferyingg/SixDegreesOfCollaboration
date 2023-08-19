@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import SearchArtists from '../components/SearchArtists';
+import { findShortestPath } from '../lib/neo4j';
 
 export default function Main() {
     const router = useRouter();
@@ -27,13 +28,25 @@ export default function Main() {
         });
     }
 
+    const handlePopulateClick = async () => {
+        try {
+          console.log("here");
+          const response = await findShortestPath("0p4nmQO2msCgU4IF37Wi3j","5cj0lLjcoR7YOSnhnX0Po5");
+          console.log(response);
+        } catch (error) {
+          console.error('Error populating data:', error);
+        }
+      };
+
     return (
         <main>
-            <div >
+            <div className='centre'>
                 <SearchArtists onChange={selectedArtistOne}/>
                 <SearchArtists onChange={selectedArtistTwo} />
-                <button onClick={handleClick}>Find path</button>
-               
+                <button onClick={handleClick} className='gradient-button'>Find path</button>
+            </div>
+            <div>
+                <button onClick={handlePopulateClick}>Populate Neo4j</button>
             </div>
         </main>
       );
