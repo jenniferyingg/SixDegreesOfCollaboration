@@ -8,6 +8,8 @@ const basic = Buffer.from(`${client_id}:${client_secret}`).toString("base64");
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 
 const getAccessToken = async () => {
+  // await new Promise(f => setTimeout(f, 1000));
+
   const response = await fetch(TOKEN_ENDPOINT, {
     method: "POST",
     headers: {
@@ -94,6 +96,17 @@ export const getTracks = async (id: string, offset: number) => {
 
 export const getTopArtists = async () => {
   const artistEndpoint = `https://api.spotify.com/v1/search?q=year%3A2023&type=artist&market=US&limit=50`;
+  const { access_token } = await getAccessToken();
+  const response = await fetch(artistEndpoint, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response.json();
+};
+
+export const getArtists = async (id: string) => {
+  const artistEndpoint = `https://api.spotify.com/v1/artists/${id}`;
   const { access_token } = await getAccessToken();
   const response = await fetch(artistEndpoint, {
     headers: {

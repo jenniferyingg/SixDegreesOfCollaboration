@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log("hi");
     await populate();
     res.status(200).json({ message: "Data populated into Neo4j" });
   } catch (error) {
