@@ -1,10 +1,30 @@
 .centre {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10px;
-  width: 900px;
+  width: 1300px;
+}
+
+.github {
+  position: absolute;
+  right: 2%;
+}
+
+.title {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 700;
+  font-size: 80px;
+  position: absolute;
+  top:20%;
+  left: 15%;
+  color: #60CA69;
+}
+.flex-container {
+  display: flex;     
+  justify-content: center;
+  align-items: center; 
+  gap: 20px;   
 }
 
 .hcentre {
@@ -26,20 +46,25 @@ div.horizontalgap {
 }
 
 .custom-select-menu {
-  width: 250px !important;
+  width: 450px !important;
 }
 
 body {
-  background-color: #0D0017;
+  background-color: #121212;
 }
 
-.gradient-button {
-  background-image: linear-gradient(to bottom, #ff6b6b, #ffa04d, #66a8d8, #5ecc8f);
+.find-button {
+  background-color: #60CA69;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  height: 55px;
+  width: 130px;
   transition: background-position 0.3s ease-in-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
 }
