@@ -5,7 +5,7 @@ import {
   getArtist,
 } from "../lib/spotify";
 import neo4j, { Driver } from "neo4j-driver";
-import Artist from "../components/interfaces/Artist";
+import SpotifyObject from "../components/interfaces/SpotifyObject";
 import Collaboration from "../components/interfaces/Collaboration";
 const uri = process.env.NEO4J_URI + "";
 const username = process.env.NEO4J_USERNAME + "";
@@ -76,7 +76,7 @@ async function getCollaborations(artistId: string): Promise<Collaboration[]> {
   const collaborations = new Set<Collaboration>();
   const albums = await getAlbumsFromArtist(artistId);
   const artistResponse = await getArtist(artistId);
-  const artist: Artist = {
+  const artist: SpotifyObject = {
     name: artistResponse.name,
     id: artistId,
   };
@@ -103,7 +103,7 @@ async function getAlbumsFromArtist(artistId: string): Promise<string[]> {
 
 async function getCollaborationsFromAlbums(
   albumIds: string[],
-  artist1: Artist,
+  artist1: SpotifyObject,
   collabs: Set<Collaboration>
 ) {
   for (let i = 0; i < albumIds.length; i += 20) {
@@ -125,7 +125,7 @@ async function getCollaborationsFromAlbums(
 
 async function addTrackIfValid(
   track: any,
-  artist1: Artist,
+  artist1: SpotifyObject,
   collabs: Set<Collaboration>
 ) {
   if (Object.keys(track.artists).length <= 1) {
@@ -145,7 +145,6 @@ async function addTrackIfValid(
           track: {
             name: track.name,
             id: track.id,
-            uri: track.uri,
           },
           artist1: artist1,
           artist2: {

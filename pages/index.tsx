@@ -31,8 +31,7 @@ export default function Main() {
 
     const handlePopulateClick = async () => {
         try {
-          console.log("here");
-          const response = await fetch('/api/populate');
+          const response = await findShortestPath("0p4nmQO2msCgU4IF37Wi3j","5cj0lLjcoR7YOSnhnX0Po5");
           console.log(response);
         } catch (error) {
           console.error('Error populating data:', error);

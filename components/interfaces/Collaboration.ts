@@ -1,15 +1,9 @@
-import Artist from './Artist';
-
-interface Track {
-    name: string,
-    id: string,
-    uri: string
-}
+import SpotifyObject from './Artist';
 
 interface Collaboration {
-    track: Track,
-    artist1: Artist,
-    artist2: Artist
+    track: SpotifyObject,
+    artist1: SpotifyObject,
+    artist2: SpotifyObject
 }
 
 export default Collaboration;
