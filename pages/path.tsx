@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import CollabPath from '../components/CollabPath';
-import SpotifyObject from '../components/interfaces/SpotifyObject';
+import Artist from '../components/types/Artist';
+import Track from '../components/types/Track';
 
 const PathPage = () => {
     const router = useRouter();
 
-    const [path, setPath] = useState<SpotifyObject[]>([]);
+    const [path, setPath] = useState<(Artist | Track)[]>([]);
 
     useEffect(() => {
         const { artistId1, artistName1, artistId2 , artistName2 } = router.query;
@@ -28,7 +29,8 @@ const PathPage = () => {
     return (
         <div>
             {path.length > 0 
-            ? (<CollabPath collaborations = {path}></CollabPath>) 
+            ? (<CollabPath items = {path}></CollabPath>) 
+            // ? (<CollabPath collaborations = {path}></CollabPath>) 
             : (<div>Loading...</div>)}
         </div>
     );

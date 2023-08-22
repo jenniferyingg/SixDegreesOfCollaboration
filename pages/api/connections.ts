@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { fetchArtistAlbums, getAlbums, getArtist } from '../../lib/spotify';
-import Collaboration from '../../components/interfaces/Collaboration';
-import SpotifyObject from '../../components/interfaces/SpotifyObject';
+import Collaboration from '../../components/types/Collaboration';
+import Artist from '../../components/types/Artist';
+import Track from '../../components/types/Track';
 import { findShortestPath, doesArtistExist } from '../../lib/neo4j'
+import { time } from 'console';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
     if (req.method === 'POST') {
@@ -19,37 +21,48 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 }
 
-async function getCollabPath(artistId1: string, artistId2: string): Promise<SpotifyObject[]> {
-    const collaborations = await getCollaborations(artistId1);
-    for (const collab of collaborations) {
-        if (collab.artist2.id === artistId2) {
-            return [collab.artist1, collab.track, collab.artist2];
+async function getCollabPath(artistId1: string, artistId2: string): Promise<(Artist | Track)[]> {
+    const artist1Exists = await doesArtistExist(artistId1);
+    const artist2Exists = await doesArtistExist(artistId2);
+    
+    if (!artist1Exists && !artist2Exists) {
+        const collaborations = await getCollaborations(artistId1);
+        for (const collab of collaborations) {
+            if (collab.artist2.id === artistId2) {
+                return [collab.artist1, collab.track, collab.artist2];
+            }
         }
     }
+
     const path = await getCollabPathNeo4j(artistId1, artistId2);
-    for (const obj of path) {
-        console.log(obj.name)
+    for (let i = 0; i < path.length; i += 2) {
+        console.log(i)
+        const fullArtist = await getArtist(path[i].id);
+        (<Artist>path[i]).image = fullArtist.images.length > 0 ? fullArtist.images[0].url : undefined
+
     }
+    console.log(path)
+
     return path;
 }
 
-async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise<SpotifyObject[]> {
+async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise<(Artist | Track)[]> {
     const artistFull1 = await getArtist(artistId1);
-    const artist1: SpotifyObject = {
+    const artist1: Artist = {
         name: artistFull1.name,
         id: artistFull1.id,
         popularity: artistFull1.popularity
     }
-    const forwardPath = await artistPathToNeo4jDFS([artist1],  new Set<string>());
+    const forwardPath = await artistPathToNeo4jDFS([artist1], new Set<string>([artist1.id]));
     const lastForwardPathArist = forwardPath.pop();
 
     const artistFull2 = await getArtist(artistId2);
-    const artist2: SpotifyObject = {
+    const artist2: Artist = {
         name: artistFull2.name,
         id: artistFull2.id,
         popularity: artistFull2.popularity
     }
-    const backPath = await artistPathToNeo4jDFS([artist2], new Set<string>());
+    const backPath = await artistPathToNeo4jDFS([artist2], new Set<string>([artist2.id]));
     const lastBackPathArist = backPath.pop();
     backPath.reverse();
 
@@ -58,7 +71,7 @@ async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise
 
 }
 
-async function artistPathToNeo4jDFS(path: SpotifyObject[], visitedIds: Set<string>): Promise<SpotifyObject[]> {
+async function artistPathToNeo4jDFS(path: (Artist | Track)[], visitedIds: Set<string>): Promise<(Artist | Track)[]> {
     const curArtist = path[path.length - 1];
     const exists = await doesArtistExist(curArtist.id);
     if (exists) {
@@ -66,6 +79,21 @@ async function artistPathToNeo4jDFS(path: SpotifyObject[], visitedIds: Set<strin
     }
     const collaborations = await getCollaborations(curArtist.id);
     collaborations.sort((collab1, collab2) => collab2.artist2.popularity - collab1.artist2.popularity);
+
+    for (const collab of collaborations) {
+        if (! visitedIds.has(collab.artist2.id)) {
+            const exists = await doesArtistExist(collab.artist2.id);
+            if (exists) {
+                path.push(collab.track);
+                path.push(collab.artist2);
+                const newPath = await artistPathToNeo4jDFS(path, visitedIds);
+                if (newPath.length > 0) return newPath;
+                path.pop();
+                path.pop();
+            }    
+        }
+    }
+
     for (const collab of collaborations) {
         if (! visitedIds.has(collab.artist2.id)) {
             visitedIds.add(collab.artist2.id)
@@ -85,7 +113,7 @@ async function getCollaborations(artistId: string): Promise<Collaboration[]> {
     const collaborations = new Set<Collaboration>();
     const albums = await getAlbumsFromArtist(artistId);
     const artistResponse = await getArtist(artistId);
-    const artist: SpotifyObject = {
+    const artist: Artist = {
         name: artistResponse.name,
         id: artistId,
         popularity: artistResponse.popularity
@@ -106,7 +134,7 @@ async function getAlbumsFromArtist(artistId: string): Promise<string[]> {
     return albumIds;
 }
 
-async function getCollaborationsFromAlbums(albumIds: string[], artist1: SpotifyObject, collabs: Set<Collaboration>) {
+async function getCollaborationsFromAlbums(albumIds: string[], artist1: Artist, collabs: Set<Collaboration>) {
     for (let i = 0; i < albumIds.length; i+=20) {
         const fullAlbums = await getAlbums(albumIds.slice(i, i+20));
         for (const album of fullAlbums.albums) {
@@ -120,7 +148,7 @@ async function getCollaborationsFromAlbums(albumIds: string[], artist1: SpotifyO
     }
 }
 
-async function addTrackIfValid(track, artist1: SpotifyObject, collabs: Set<Collaboration>) {
+async function addTrackIfValid(track, artist1: Artist, collabs: Set<Collaboration>) {
     if (Object.keys(track.artists).length <= 1) {
         return;
     }

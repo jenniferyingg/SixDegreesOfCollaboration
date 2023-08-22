@@ -1,17 +1,22 @@
 import React from 'react';
-import SingleCollab from './SingleCollab';
-import Collaboration from './interfaces/Collaboration'
-import SpotifyObject from './interfaces/SpotifyObject';
+import DisplayArtist from './DisplayArtist';
+import DisplayTrack from './DisplayTrack';
+import Artist from './types/Artist';
+import Track from './types/Track';
 
 interface CollabPathProps {
-    collaborations: SpotifyObject[];
+    items: (Artist | Track)[];
 }
 
-const CollabPath: React.FC<CollabPathProps> = ({ collaborations }) => {
+const CollabPath: React.FC<CollabPathProps> = ({ items }) => {
     return (
         <div className="centre">
-            {collaborations.map((collaboration, index) => (
-                <SingleCollab key={index} collaboration={collaboration} />
+            {items.map((item, index) => (
+                index % 2 === 0 ? (
+                    <DisplayArtist key={index} artist={item as Artist} />
+                ) : (
+                    <DisplayTrack key={index} track={item as Track} />
+                )
             ))}
         </div>
     );
