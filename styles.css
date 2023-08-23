@@ -16,10 +16,11 @@
   font-weight: 700;
   font-size: 80px;
   position: absolute;
-  top:20%;
+  top: 20%;
   left: 15%;
   color: #60CA69;
 }
+
 .flex-container {
   display: flex;     
   justify-content: center;
@@ -68,3 +69,170 @@ body {
   font-size: 20px;
   font-weight: 300;
 }
+
+.path-title {
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  position: absolute;
+  top: 20px;
+  color: #FFFFFF;
+}
+
+.path-title-accent {
+  font-weight: 800;
+  text-decoration-line: underline;  
+  color: #FFFFFF;
+}
+
+.path-title-accent-green {
+  font-weight: 700;
+  color: #60CA69;
+}
+
+.home-no-path {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+}
+
+.home-with-path {
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: center; 
+  align-self: flex-end;
+}
+
+.home-no-path button {
+  background-color: #60CA69;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 24px;
+  height: 55px;
+  width: 220px;
+  transition: background-position 0.3s ease-in-out;
+  font-family: 'Gill Sans MT';
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.home-with-path button {
+  background-color: #60CA69;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 24px;
+  height: 55px;
+  width: 220px;
+  transition: background-position 0.3s ease-in-out;
+  font-family: 'Gill Sans MT';
+  font-size: 20px;
+  font-weight: 400;
+}
+
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+}
+
+.loading span {
+  font-family: Calibri;
+  font-size: 30px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.loading img {
+  margin: 30px;
+}
+
+.column-container {
+  display: flex;     
+  justify-content: center;
+  gap: 40px;
+}
+
+.left-artists-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: -210px;
+}
+
+.right-artists-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0px;
+}
+
+.tracks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  margin-top: 150px;
+}
+
+.artist-image-container {
+  display: flex;
+  align-items: flex-end;
+  width: 120px;
+  height: 420px;
+}
+
+.artist-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.track-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 210px;
+  gap: 5px;
+}
+
+.track-header-artists {
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  color: #FFFFFF; 
+}
+
+.track-header-song {
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  color: #FFFFFF;
+}
+
+.track-header-accent {
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.rotate {
+  animation: rotation 6s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+

@@ -1,7 +1,8 @@
 import neo4jDriver from "../neo4j/connection";
 import Artist from "../components/types/Artist";
+import Track from "../components/types/Track";
 
-export async function findShortestPath(artistId1: string, artistId2: string): Promise<Artist[]>{
+export async function findShortestPath(artistId1: string, artistId2: string): Promise<(Artist | Track)[]>{
   const session = neo4jDriver.session();
   try {
     const result = await session.run(
@@ -9,7 +10,7 @@ export async function findShortestPath(artistId1: string, artistId2: string): Pr
       { artistId1, artistId2 }
     );
     const nodesPath = result.records.map((record) => record.get("p"))[0];
-    const objectsPath : Artist[] = [];
+    const objectsPath : (Artist | Track)[] = [];
     objectsPath.push({
       name: nodesPath.start.properties.name,
       id: nodesPath.start.properties.id

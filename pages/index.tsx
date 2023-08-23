@@ -7,15 +7,14 @@ import github from '../imgs/github.png';
 export default function Main() {
     const router = useRouter();
 
-    const [artistOne, setArtistOne] = useState<string | null>(null);
-    const [artistTwo, setArtistTwo] = useState<string | null>(null);
-    const selectedArtistOne = (value: any | null) => {
+    const [artistOne, setArtistOne] = useState<[string, string] | null>(null);
+    const [artistTwo, setArtistTwo] = useState<[string, string] | null>(null);
+    const selectedArtistOne = (value: [string, string] | null) => {
         setArtistOne(value);
-        console.log(value);
+        
     };
-    const selectedArtistTwo = (value: any | null) => {
+    const selectedArtistTwo = (value: [string, string] | null) => {
         setArtistTwo(value);
-        console.log(value);
     };
 
 
@@ -23,8 +22,10 @@ export default function Main() {
         router.push({
             pathname: '/path',
             query: {
-                artistId1: artistOne, 
-                artistId2: artistTwo
+                artistId1: artistOne[0], 
+                artistName1: artistOne[1], 
+                artistId2: artistTwo[0],
+                artistName2: artistTwo[1]
             },
         });
     }
@@ -49,11 +50,11 @@ export default function Main() {
                 six degrees <br></br>of collaboration
             </div>
             <div className='centre'>
-                <div className='flex-container'>
-                    <SearchArtists onChange={selectedArtistOne}/>
-                    <SearchArtists onChange={selectedArtistTwo} />
-                    <button onClick={handleClick} className='find-button'>find path</button>
-                </div>
+                    <div className='flex-container'>
+                        <SearchArtists onChange={selectedArtistOne}/>
+                        <SearchArtists onChange={selectedArtistTwo} />
+                        <button onClick={handleClick} className='find-button'>find path</button>
+                    </div>
             </div>
             {/* <button onClick={handlePopulateClick}>Populate Neo4j</button> */}
         </main>

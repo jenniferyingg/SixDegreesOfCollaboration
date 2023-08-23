@@ -10,7 +10,7 @@ type SelectOption = {
 };
 
 type Props = {
-  onChange: (selectedValue: string | null) => void;
+  onChange: (selectedValue: [string, string] | null) => void;
 };
 
 const selectStyles = {
@@ -87,7 +87,7 @@ const SelectSearchOptions: React.FC<Props> = ({ onChange }) => {
                 image: artist.images.length > 0 ? artist.images[0].url : undefined
             }));
         setOptions(options);
-        //console.log(options);
+        console.log(options);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -111,7 +111,7 @@ const SelectSearchOptions: React.FC<Props> = ({ onChange }) => {
 
   const handleOptionChange = (selected: SelectOption | null) => {
     setSelectedOption(selected);
-    onChange(selected ? selected.value : null);
+    onChange(selected ? [selected.value, selected.name] : null);
   };
 
   return (

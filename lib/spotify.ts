@@ -1,3 +1,4 @@
+import { access } from "fs";
 import querystring from "querystring";
 
 let access_token = "";
@@ -29,6 +30,9 @@ const callProtectedSpotifyAPI = async (url: string) => {
     },
   });
   if (!response.ok) {
+    if (response.status === 429) {
+      throw new Error(response.statusText);
+    }
     access_token = (await getAccessToken()).access_token;
     return callProtectedSpotifyAPI(url);
   }
@@ -70,6 +74,3 @@ export const getTopArtists = async () => {
   return callProtectedSpotifyAPI(`https://api.spotify.com/v1/search?q=year%3A2023&type=artist&market=US&limit=50`);
 };
 
-export const getArtists = async (id: string) => {
-  return callProtectedSpotifyAPI(`https://api.spotify.com/v1/artists/${id}`);
-};

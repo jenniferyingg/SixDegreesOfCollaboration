@@ -1,7 +1,8 @@
 type Artist = {
     name: string;
     id: string;
-    popularity: number;
+    popularity?: number;
+    image?: string;
 }
 
 export default Artist;

@@ -8,7 +8,7 @@ interface ArtistProps {
 
 const DisplayArtist: React.FC<ArtistProps> = ({ artist }) => {
     return (
-        <div className=".boxed">
+        <div className='artist-image-container'>
             <ArtistImage imageUrl={artist.image} />
         </div>
     );

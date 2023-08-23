@@ -4,7 +4,6 @@ import Collaboration from '../../components/types/Collaboration';
 import Artist from '../../components/types/Artist';
 import Track from '../../components/types/Track';
 import { findShortestPath, doesArtistExist } from '../../lib/neo4j'
-import { time } from 'console';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
     if (req.method === 'POST') {
@@ -21,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 }
 
-async function getCollabPath(artistId1: string, artistId2: string): Promise<(Artist | Track)[]> {
+async function getCollabPath(artistId1: string, artistId2: string): Promise<Collaboration[]> {
     const artist1Exists = await doesArtistExist(artistId1);
     const artist2Exists = await doesArtistExist(artistId2);
     
@@ -29,22 +28,31 @@ async function getCollabPath(artistId1: string, artistId2: string): Promise<(Art
         const collaborations = await getCollaborations(artistId1);
         for (const collab of collaborations) {
             if (collab.artist2.id === artistId2) {
-                return [collab.artist1, collab.track, collab.artist2];
+                return [collab];
             }
         }
     }
-
     const path = await getCollabPathNeo4j(artistId1, artistId2);
     for (let i = 0; i < path.length; i += 2) {
-        console.log(i)
         const fullArtist = await getArtist(path[i].id);
         (<Artist>path[i]).image = fullArtist.images.length > 0 ? fullArtist.images[0].url : undefined
 
     }
-    console.log(path)
-
-    return path;
+    return pathToCollabs(path);
 }
+
+function pathToCollabs(path: (Artist | Track)[]): Collaboration[] {
+    const collabs: Collaboration[] = [];
+    for (let i = 0; i < path.length - 2; i+=2) {
+        collabs.push({
+            artist1: path[i],
+            track: path[i+1],
+            artist2: path[i+2],
+        })
+    }
+    return collabs;
+}
+
 
 async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise<(Artist | Track)[]> {
     const artistFull1 = await getArtist(artistId1);
