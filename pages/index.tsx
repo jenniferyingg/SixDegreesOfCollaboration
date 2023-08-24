@@ -46,14 +46,17 @@ export default function Main() {
                     <img src={github.src} style={{height: '70px' }}/>
                 </a>
             </div>
-            <div className='title'>
-                six degrees <br></br>of collaboration
-            </div>
             <div className='centre'>
+                <div className='title'>
+                    six degrees <br></br>of collaboration
+                </div>
+                <div className='description'>
+                    connecting two spotify artists through their collaborations. try it out below.
+                </div>
                     <div className='flex-container'>
                         <SearchArtists onChange={selectedArtistOne}/>
                         <SearchArtists onChange={selectedArtistTwo} />
-                        <button onClick={handleClick} className='find-button'>find path</button>
+                        <button onClick={handleClick} className='button find-button'>find path</button>
                     </div>
             </div>
             {/* <button onClick={handlePopulateClick}>Populate Neo4j</button> */}

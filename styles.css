@@ -1,6 +1,6 @@
 .centre {
   position: absolute;
-  top: 55%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 1300px;
@@ -15,9 +15,17 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-weight: 700;
   font-size: 80px;
-  position: absolute;
-  top: 20%;
-  left: 15%;
+  margin-left: 9%;
+  margin-bottom: 1%;
+  color: #60CA69;
+}
+
+.description {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+  margin-left: 9%;
+  margin-bottom: 3%;
   color: #60CA69;
 }
 
@@ -25,7 +33,7 @@
   display: flex;     
   justify-content: center;
   align-items: center; 
-  gap: 20px;   
+  gap: 20px;  
 }
 
 .hcentre {
@@ -54,88 +62,79 @@ body {
   background-color: #121212;
 }
 
-.find-button {
+
+/* buttons */
+.button {
   background-color: #60CA69;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
-  height: 55px;
-  width: 130px;
   transition: background-position 0.3s ease-in-out;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 20px;
   font-weight: 300;
 }
 
-.path-title {
-  font-family: 'Trebuchet MS', sans-serif;
-  font-weight: 400;
-  font-size: 40px;
-  position: absolute;
-  top: 20px;
-  color: #FFFFFF;
+.find-button {
+  height: 55px;
+  width: 130px;
 }
 
-.path-title-accent {
-  font-weight: 800;
-  text-decoration-line: underline;  
-  color: #FFFFFF;
+.with-path {
+  display: flex;
+  margin-bottom: 60px;
+  justify-content: center; 
+  align-self: flex-end;
+  margin-top: 30px;
 }
 
-.path-title-accent-green {
-  font-weight: 700;
-  color: #60CA69;
-}
-
-.home-no-path {
+.no-path {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   bottom: 30px;
 }
 
-.home-with-path {
+.centred-title {
   display: flex;
-  margin-bottom: 30px;
-  justify-content: center; 
-  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
 }
 
-.home-no-path button {
-  background-color: #60CA69;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 24px;
-  height: 55px;
-  width: 220px;
-  transition: background-position 0.3s ease-in-out;
-  font-family: 'Gill Sans MT';
-  font-size: 20px;
+.path-title {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  position: absolute;
+  top: 40px;
+  color: #FFFFFF;
+  display: flex;     
+  justify-content: center;
+  gap: 20px; 
+  margin-top: 50px;
+}
+
+.path {
+  margin-top: 100px;
+}
+
+.title-path {
+  text-align: center;
+  align-self: center;
+}
+
+.path-title-accent {
   font-weight: 400;
+  color: #FFFFFF;
 }
 
-.home-with-path button {
-  background-color: #60CA69;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 24px;
-  height: 55px;
-  width: 220px;
-  transition: background-position 0.3s ease-in-out;
-  font-family: 'Gill Sans MT';
-  font-size: 20px;
+.path-title-accent-green {
   font-weight: 400;
+  color: #60CA69;
 }
-
 
 .loading {
   display: flex;
@@ -160,18 +159,19 @@ body {
   display: flex;     
   justify-content: center;
   gap: 40px;
+  margin-top:30px;
 }
 
 .left-artists-container {
   display: flex;
   flex-direction: column;
-  margin-top: -210px;
+  margin-top: -305px;
 }
 
 .right-artists-container {
   display: flex;
   flex-direction: column;
-  margin-top: 0px;
+  margin-top: -44px;
 }
 
 .tracks-container {
@@ -179,14 +179,15 @@ body {
   flex-direction: column;
   align-items: center;
   width: 600px;
-  margin-top: 150px;
+  margin-top: 180px;
+  margin-bottom: 50px;
 }
 
 .artist-image-container {
   display: flex;
   align-items: flex-end;
   width: 120px;
-  height: 420px;
+  height: 530px;
 }
 
 .artist-image {
@@ -205,22 +206,29 @@ body {
 }
 
 .track-header-artists {
-  font-family: 'Trebuchet MS', sans-serif;
-  font-weight: 400;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 500;
   font-size: 28px;
   color: #FFFFFF; 
 }
 
 .track-header-song {
-  font-family: 'Trebuchet MS', sans-serif;
-  font-weight: 400;
-  font-size: 23px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
   color: #FFFFFF;
+  align-content: center;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .track-header-accent {
-  font-weight: 800;
-  color: #FFFFFF;
+  font-weight: 500;
+  color: #60CA69; 
+}
+
+.track-header-accent1 {
+  font-weight: 500;
 }
 
 .rotate {
@@ -236,3 +244,30 @@ body {
   }
 }
 
+.display-track-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 55px;
+}
+
+.top-left-image {
+  margin-top: -40px;
+}
+
+.top-right-image {
+  margin-top: 80px;
+}
+
+.bottom-left-image {
+  margin-top: 80px;
+}
+
+.bottom-right-image {
+  margin-top: -50px;
+}
+
+/* .shift-left-artists {
+  margin-top: 80px;
+} */
