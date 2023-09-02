@@ -4,14 +4,15 @@ import Collaboration from '../../components/types/Collaboration';
 import Artist from '../../components/types/Artist';
 import Track from '../../components/types/Track';
 import { findShortestPath, doesArtistExist } from '../../lib/neo4j'
+import { json } from 'stream/consumers';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
     if (req.method === 'POST') {
         try {
             const { artistId1, artistId2 } = JSON.parse(req.body);
             const path = await getCollabPath(artistId1, artistId2);
-            res.status(200).json(path);
-        } catch (error) {
+            res.status(200).json([JSON.stringify(path)]);
+        } catch (error : any) {
             console.log(error.message)
             res.status(400).json([]);
         }
@@ -62,7 +63,7 @@ async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise
         popularity: artistFull1.popularity
     }
     const forwardPath = await artistPathToNeo4jDFS([artist1], new Set<string>([artist1.id]));
-    const lastForwardPathArist = forwardPath.pop();
+    const lastForwardPathArist = forwardPath.pop() as Artist;
 
     const artistFull2 = await getArtist(artistId2);
     const artist2: Artist = {
@@ -71,7 +72,7 @@ async function getCollabPathNeo4j(artistId1: string, artistId2: string): Promise
         popularity: artistFull2.popularity
     }
     const backPath = await artistPathToNeo4jDFS([artist2], new Set<string>([artist2.id]));
-    const lastBackPathArist = backPath.pop();
+    const lastBackPathArist = backPath.pop() as Artist;
     backPath.reverse();
 
     const midPath = await findShortestPath(lastForwardPathArist.id, lastBackPathArist.id);
@@ -86,7 +87,7 @@ async function artistPathToNeo4jDFS(path: (Artist | Track)[], visitedIds: Set<st
         return path;
     }
     const collaborations = await getCollaborations(curArtist.id);
-    collaborations.sort((collab1, collab2) => collab2.artist2.popularity - collab1.artist2.popularity);
+    collaborations.sort((collab1 : Collaboration, collab2 : Collaboration) => collab2.artist2.popularity! - collab1.artist2.popularity!);
 
     for (const collab of collaborations) {
         if (! visitedIds.has(collab.artist2.id)) {
@@ -156,7 +157,7 @@ async function getCollaborationsFromAlbums(albumIds: string[], artist1: Artist, 
     }
 }
 
-async function addTrackIfValid(track, artist1: Artist, collabs: Set<Collaboration>) {
+async function addTrackIfValid(track : any, artist1: Artist, collabs: Set<Collaboration>) {
     if (Object.keys(track.artists).length <= 1) {
         return;
     }

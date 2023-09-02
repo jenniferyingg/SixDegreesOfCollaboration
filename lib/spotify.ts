@@ -23,7 +23,7 @@ const getAccessToken = async () => {
   return response.json();
 };
 
-const callProtectedSpotifyAPI = async (url: string) => {
+const callProtectedSpotifyAPI = async (url: string) : Promise<any> => {
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${access_token}`,

@@ -9,7 +9,7 @@ export default async function handler(
   try {
     await populate();
     res.status(200).json({ message: "Data populated into Neo4j" });
-  } catch (error) {
+  } catch (error : any) {
     res.status(500).json({ error: "Error populating Neo4j" });
   }
 }

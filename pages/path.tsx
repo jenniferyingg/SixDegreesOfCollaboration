@@ -9,6 +9,7 @@ import topLeft from "../imgs/topleft.svg";
 import topRight from "../imgs/topright.svg";
 import bottomLeft from "../imgs/bottomleft.svg";
 import bottomRight from "../imgs/bottomright.svg";
+import { SUPPORTED_NATIVE_MODULES } from 'next/dist/build/webpack/plugins/middleware-plugin';
 
 const PathPage = () => {
     const router = useRouter();
@@ -27,8 +28,12 @@ const PathPage = () => {
                     signal
                 });
                 const data = await response.json();
-                setPath(data);
-            } catch (error) {
+                console.log("heyoo")
+                console.log(data)
+                setPath(JSON.parse(data));
+                console.log("heyoo")
+                console.log(path)
+            } catch (error : any) {
                 if (error.name === 'AbortError') {
                     console.log('Request canceled:', error.message);
                 } else {
@@ -99,14 +104,14 @@ const PathPage = () => {
                         <div className='column-container'>
                             <div className='left-artists-container'>
                                 {path.map((collab: Collaboration, index: number) => (
-                                    <div>
+                                    <div key={index * 100 + 1}>
                                         {index === 0 ? (
-                                            <div key={index * 100 + 1}>
+                                            <div>
                                                 <DisplayArtist artist={collab.artist1} />
                                             </div>
                                         ) : (
                                             index % 2 === 1 && (
-                                                <div key={index * 100 + 1} className='shift-left-artists'>
+                                                <div className='shift-left-artists'>
                                                     <DisplayArtist artist={collab.artist2} />
                                                 </div>
                                             ))}
@@ -135,8 +140,8 @@ const PathPage = () => {
                             <div className='right-artists-container'>
                                 {path.map((collab: Collaboration, index: number) => (
                                     (index % 2 === 0) &&
-                                    <div>
-                                        <DisplayArtist key={index * 100 + 3} artist={collab.artist2} />
+                                    <div key={index * 100 + 3}>
+                                        <DisplayArtist artist={collab.artist2} />
                                     </div>
                                 ))}
                             </div>

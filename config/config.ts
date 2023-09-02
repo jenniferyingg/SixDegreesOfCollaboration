@@ -6,9 +6,9 @@ interface Neo4jConfig {
 }
 
 const neo4jConfig: Neo4jConfig = {
-  uri: process.env.NEO4J_URI,
-  username: process.env.NEO4J_USERNAME,
-  password: process.env.NEO4J_PASSWORD,
+  uri: process.env.NEO4J_URI!,
+  username: process.env.NEO4J_USERNAME!,
+  password: process.env.NEO4J_PASSWORD!,
 };
 
 export default neo4jConfig;

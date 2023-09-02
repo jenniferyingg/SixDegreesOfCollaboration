@@ -15,8 +15,8 @@ const DisplayTrack: React.FC<TrackProps> = ({ collab }) => {
                 <span className='track-header-accent'>{collab.artist2.name}</span>
             </div>
             <div className="track-header-song">
-                appear on "
-                <span className='track-header-accent1'>{collab.track.name}</span>"
+                appear on &quot;
+                <span className='track-header-accent1'>{collab.track.name}</span>&quot;
             </div>
             <SongPreview trackId={collab.track.id} />
         </div>

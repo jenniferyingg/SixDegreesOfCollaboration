@@ -19,25 +19,19 @@ export default function Main() {
 
 
     function handleClick() {
+        if (artistOne === null || artistTwo === null) {
+            return;
+        }
         router.push({
             pathname: '/path',
             query: {
-                artistId1: artistOne[0], 
-                artistName1: artistOne[1], 
-                artistId2: artistTwo[0],
-                artistName2: artistTwo[1]
+                artistId1: artistOne![0], 
+                artistName1: artistOne![1], 
+                artistId2: artistTwo![0],
+                artistName2: artistTwo![1]
             },
         });
     }
-
-    const handlePopulateClick = async () => {
-        try {
-          const response = await findShortestPath("0p4nmQO2msCgU4IF37Wi3j","5cj0lLjcoR7YOSnhnX0Po5");
-          console.log(response);
-        } catch (error) {
-          console.error('Error populating data:', error);
-        }
-      };
 
     return (
         <main>
@@ -59,7 +53,6 @@ export default function Main() {
                         <button onClick={handleClick} className='button find-button'>find path</button>
                     </div>
             </div>
-            {/* <button onClick={handlePopulateClick}>Populate Neo4j</button> */}
         </main>
       );
   }

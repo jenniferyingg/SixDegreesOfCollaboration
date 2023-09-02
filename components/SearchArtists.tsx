@@ -78,7 +78,6 @@ const SelectSearchOptions: React.FC<Props> = ({ onChange }) => {
     const fetchOptions = async () => {
       setIsLoading(true);
       try {
-        //console.log(inputValue);
         const response = await fetch(`/api/artists?q=${inputValue}`);
         const data = await response.json();
         const options: SelectOption[] = data.map((artist: { name: any; id: any; images: any[]; }) => ({
@@ -88,7 +87,7 @@ const SelectSearchOptions: React.FC<Props> = ({ onChange }) => {
             }));
         setOptions(options);
         console.log(options);
-      } catch (error) {
+      } catch (error : any) {
         console.error('Error fetching data:', error);
       }
       setIsLoading(false);
